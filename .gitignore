@@ -25,3 +25,5 @@ dist-ssr
 
 # Vanilla backup
 vanilla-backup/
+
+* .agent/

@@ -1,6 +1,7 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
+import { useOrder } from '../contexts/OrderContext'
 import { useLocalStorage } from '../hooks/useLocalStorage'
 import { validateField, validateDateRange } from '../utils/validators'
 import { formatDate, formatDateTime } from '../utils/authUtils'
@@ -9,7 +10,17 @@ import '../styles/navigation.css'
 export default function NavigationOfficerPage() {
     const navigate = useNavigate()
     const { currentUser, logout } = useAuth()
+    const { selectedOrderId, assignedOrders, clearSelectedOrder } = useOrder()
     const [reports, setReports] = useLocalStorage('golden_ocean_reports', [])
+
+    // Redirect if no order selected
+    useEffect(() => {
+        if (!selectedOrderId) {
+            navigate('/navigation-officer/select-order')
+        }
+    }, [selectedOrderId, navigate])
+
+    const selectedOrder = assignedOrders.find(o => o.id === selectedOrderId)
 
     const [formData, setFormData] = useState({
         deliveryDate: '',
@@ -80,6 +91,7 @@ export default function NavigationOfficerPage() {
         setTimeout(() => {
             const report = {
                 id: 'RPT-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5).toUpperCase(),
+                orderId: selectedOrderId,
                 officerId: currentUser.id,
                 officerName: currentUser.username,
                 submittedAt: new Date().toISOString(),
@@ -94,6 +106,9 @@ export default function NavigationOfficerPage() {
             setSubmittedReport(report)
             setIsLoading(false)
             setShowModal(true)
+
+            // Clear selected order after submission
+            clearSelectedOrder()
         }, 800)
     }
 
@@ -133,9 +148,14 @@ export default function NavigationOfficerPage() {
 
     const handleLogout = () => {
         if (confirm('Are you sure you want to logout?')) {
+            clearSelectedOrder()
             logout()
             navigate('/', { replace: true })
         }
+    }
+
+    if (!selectedOrder) {
+        return null
     }
 
     return (
@@ -146,7 +166,7 @@ export default function NavigationOfficerPage() {
                         <div className="header-icon">⚓</div>
                         <div className="header-text">
                             <h1>Navigation Officer</h1>
-                            <p>Submit your delivery report</p>
+                            <p>Delivery Report - {selectedOrder.id}</p>
                         </div>
                     </div>
                     <div className="header-actions">
@@ -164,7 +184,11 @@ export default function NavigationOfficerPage() {
             <main className="main-content">
                 <div className="page-intro">
                     <h2>Submit Delivery Report</h2>
-                    <p>Complete all required fields below to submit your delivery report</p>
+                    <p>Complete all required fields for Order: <strong>{selectedOrder.id}</strong></p>
+                    <div className="order-info-banner">
+                        <span>📍 Destination: {selectedOrder.destination.name}</span>
+                        <span>👤 Customer: {selectedOrder.customerName}</span>
+                    </div>
                 </div>
 
                 <div className="report-form-container">

@@ -1,4 +1,4 @@
-import { GoogleMap, useLoadScript, Marker, Circle } from '@react-google-maps/api'
+import { GoogleMap, Marker, Circle } from '@react-google-maps/api'
 
 const mapContainerStyle = {
     width: '100%',
@@ -21,10 +21,7 @@ const mapOptions = {
     ]
 }
 
-export default function OfficerLocationMap({ location, destination, accuracy }) {
-    const { isLoaded, loadError } = useLoadScript({
-        googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY || ''
-    })
+export default function OfficerLocationMap({ location, destination, accuracy, isLoaded, loadError }) {
 
     if (loadError) {
         return (

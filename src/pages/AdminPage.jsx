@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
 import { useLocalStorage } from '../hooks/useLocalStorage'
 import { useLocationPolling } from '../hooks/useLocationPolling'
+import { useLoadScript } from '@react-google-maps/api'
 import LiveMap from '../components/LiveMap'
 import OfficerLocationMap from '../components/OfficerLocationMap'
 import { getLocationHistory, calculateDistance, formatCoordinate } from '../utils/orderUtils'
@@ -16,6 +17,10 @@ export default function AdminPage() {
     const [assignedOrders] = useLocalStorage('golden_ocean_assigned_orders', [])
     const [selectedOrderId, setSelectedOrderId] = useState(null)
     const { locations, isLoading, lastUpdate } = useLocationPolling(5000)
+
+    const { isLoaded, loadError } = useLoadScript({
+        googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY || ''
+    })
 
     // Get unique active orders from locations
     const activeOrders = locations.map(loc => loc.order).filter(Boolean)
@@ -152,6 +157,8 @@ export default function AdminPage() {
                             locations={locations}
                             selectedOrderId={selectedOrderId}
                             onMarkerClick={handleSelectOrder}
+                            isLoaded={isLoaded}
+                            loadError={loadError}
                         />
                     </div>
 
@@ -177,6 +184,8 @@ export default function AdminPage() {
                                                     location={selectedLocation.location}
                                                     destination={selectedOrder.destination}
                                                     accuracy={selectedLocation.accuracy}
+                                                    isLoaded={isLoaded}
+                                                    loadError={loadError}
                                                 />
                                             </div>
                                             <div className="location-meta">

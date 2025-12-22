@@ -124,8 +124,10 @@
 /* Main tracking view */
 .tracking-view {
     flex: 1;
-    overflow-y: auto;
+    position: relative;
     background: var(--bg-primary);
+    display: flex;
+    flex-direction: column;
 }
 
 .tracking-content {

@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react'
-import { GoogleMap, useLoadScript, Marker, InfoWindow, Polyline } from '@react-google-maps/api'
+import { GoogleMap, Marker, InfoWindow, Polyline } from '@react-google-maps/api'
 import { formatCoordinate } from '../utils/orderUtils'
 import { formatDateTime } from '../utils/authUtils'
 
@@ -28,13 +28,11 @@ const mapOptions = {
     ]
 }
 
-export default function LiveMap({ locations, selectedOrderId, onMarkerClick }) {
+export default function LiveMap({ locations, selectedOrderId, onMarkerClick, isLoaded, loadError }) {
     const [selectedMarker, setSelectedMarker] = useState(null)
     const [map, setMap] = useState(null)
 
-    const { isLoaded, loadError } = useLoadScript({
-        googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY || ''
-    })
+    // Fit bounds implementation...
 
     const onLoad = useCallback((map) => {
         setMap(map)

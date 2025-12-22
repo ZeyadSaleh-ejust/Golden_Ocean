@@ -114,6 +114,8 @@
     flex: 1;
     position: relative;
     background: var(--bg-secondary);
+    min-height: 500px;
+    height: 100%;
 }
 
 .map-error,

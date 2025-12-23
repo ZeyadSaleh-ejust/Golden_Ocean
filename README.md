@@ -177,10 +177,17 @@ Use Chrome DevTools to simulate GPS:
 
 ### Mobile Testing
 For real GPS on mobile devices:
-- Use **ngrok** to expose localhost via HTTPS
+- Use **ngrok** to expose localhost via HTTPS (recommended)
+- See [NGROK_SETUP.md](./NGROK_SETUP.md) for detailed instructions
 - Or deploy to a staging server with HTTPS
 
-See [Setup Guide](./setup_guide.md) for detailed testing instructions.
+**Quick Start with ngrok:**
+```bash
+npm run dev:public
+```
+Then open the ngrok URL on your mobile device!
+
+See [NGROK_SETUP.md](./NGROK_SETUP.md) for detailed testing instructions.
 
 ---
 
@@ -212,6 +219,7 @@ See [Setup Guide](./setup_guide.md) for code examples.
 | Command | Description |
 |---------|-------------|
 | `npm run dev` | Start development server at localhost:5173 |
+| `npm run dev:public` | Start dev server with ngrok for public access |
 | `npm run build` | Build production bundle to `dist/` |
 | `npm run preview` | Preview production build locally |
 | `npm run lint` | Run ESLint for code quality |
@@ -265,6 +273,7 @@ See [Setup Guide](./setup_guide.md) for code examples.
 
 ## 📖 Documentation
 
+- [NGROK Setup Guide](./NGROK_SETUP.md) - Make your app publicly accessible
 - [Setup Guide](./setup_guide.md) - Detailed setup and testing instructions
 - [Implementation Plan](./implementation_plan.md) - Technical architecture details
 

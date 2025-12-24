@@ -83,13 +83,19 @@
     margin-bottom: var(--space-sm);
 }
 
+.auth-logo-img {
+    max-width: 100%;
+    height: auto;
+    max-height: 80px;
+    margin-bottom: var(--space-md);
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .auth-subtitle {
     font-size: var(--font-size-base);
     color: var(--text-secondary);
-}
-
-.auth-form {
-    /* Form styles inherited from global.css */
 }
 
 .auth-toggle {

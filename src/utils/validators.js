@@ -9,13 +9,14 @@ export function validateField(fieldName, value) {
     switch (fieldName) {
         case 'deliveryDate':
         case 'expiryDate':
+        case 'dateOfDelivery':
+        case 'longevity':
             if (!value) {
                 return { valid: false, message: 'Date is required' }
             }
             return { valid: true }
 
-        case 'returns':
-        case 'numberOfGames':
+        case 'numberOfJumboJets':
             if (value === '' || value === null || value === undefined) {
                 return { valid: false, message: 'This field is required' }
             }
@@ -24,30 +25,21 @@ export function validateField(fieldName, value) {
             }
             return { valid: true }
 
-        case 'downloadRate':
-        case 'screenshotRate':
-            if (value === '' || value === null || value === undefined) {
-                return { valid: false, message: 'This field is required' }
-            }
-            if (value < 0 || value > 100) {
-                return { valid: false, message: 'Rate must be between 0 and 100' }
-            }
-            return { valid: true }
-
+        case 'vesselName':
+        case 'returns':
         case 'competitors':
-        case 'durationOfStay':
+        case 'notes':
             if (!value || value.trim() === '') {
                 return { valid: false, message: 'This field is required' }
             }
             return { valid: true }
 
-        case 'review':
-            if (!value || value.trim() === '') {
-                return { valid: false, message: 'Review is required' }
-            }
-            if (value.length < 10) {
-                return { valid: false, message: 'Review must be at least 10 characters' }
-            }
+        case 'photos':
+            // Photos are optional, so always valid
+            return { valid: true }
+
+        case 'vesselSubjectToInspection':
+            // Boolean checkbox, always valid
             return { valid: true }
 
         default:

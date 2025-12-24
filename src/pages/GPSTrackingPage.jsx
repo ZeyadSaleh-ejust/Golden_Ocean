@@ -29,13 +29,15 @@ export default function GPSTrackingPage() {
     }, [selectedOrderId, navigate])
 
     // Update permission step based on GPS permission
+    // Auto-navigate to report page when permission is granted
     useEffect(() => {
         if (permission === 'granted') {
-            setPermissionStep('granted')
+            // Navigate directly to report page instead of showing location display
+            navigate('/navigation-officer/report')
         } else if (permission === 'denied') {
             setPermissionStep('denied')
         }
-    }, [permission])
+    }, [permission, navigate])
 
     const selectedOrder = assignedOrders.find(o => o.id === selectedOrderId)
 

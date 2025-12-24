@@ -23,15 +23,17 @@ export default function NavigationOfficerPage() {
     const selectedOrder = assignedOrders.find(o => o.id === selectedOrderId)
 
     const [formData, setFormData] = useState({
-        deliveryDate: '',
-        expiryDate: '',
+        vesselName: '',
+        dateOfDelivery: '',
         returns: '',
-        durationOfStay: '',
-        downloadRate: '',
-        screenshotRate: '',
-        numberOfGames: '',
         competitors: '',
-        review: ''
+        longevity: '',
+        photos: [],
+        vesselSubjectToInspection: false,
+        numberOfJumboJets: '',
+        notes: '',
+        deliveryDate: '',
+        expiryDate: ''
     })
 
     const [errors, setErrors] = useState({})
@@ -40,8 +42,17 @@ export default function NavigationOfficerPage() {
     const [submittedReport, setSubmittedReport] = useState(null)
 
     const handleInputChange = (e) => {
-        const { name, value } = e.target
-        setFormData(prev => ({ ...prev, [name]: value }))
+        const { name, value, type, checked, files } = e.target
+
+        // Handle different input types
+        if (type === 'checkbox') {
+            setFormData(prev => ({ ...prev, [name]: checked }))
+        } else if (type === 'file') {
+            // Store file objects
+            setFormData(prev => ({ ...prev, [name]: Array.from(files) }))
+        } else {
+            setFormData(prev => ({ ...prev, [name]: value }))
+        }
 
         // Clear error when user starts typing
         if (errors[name]) {
@@ -96,10 +107,9 @@ export default function NavigationOfficerPage() {
                 officerName: currentUser.username,
                 submittedAt: new Date().toISOString(),
                 ...formData,
-                returns: parseInt(formData.returns),
-                downloadRate: parseFloat(formData.downloadRate),
-                screenshotRate: parseFloat(formData.screenshotRate),
-                numberOfGames: parseInt(formData.numberOfGames)
+                numberOfJumboJets: parseInt(formData.numberOfJumboJets) || 0,
+                // Convert photos to base64 or file names for storage
+                photoFileNames: formData.photos.map(f => f.name)
             }
 
             setReports([...reports, report])
@@ -115,15 +125,17 @@ export default function NavigationOfficerPage() {
     const handleReset = () => {
         if (confirm('Are you sure you want to reset the form? All data will be lost.')) {
             setFormData({
-                deliveryDate: '',
-                expiryDate: '',
+                vesselName: '',
+                dateOfDelivery: '',
                 returns: '',
-                durationOfStay: '',
-                downloadRate: '',
-                screenshotRate: '',
-                numberOfGames: '',
                 competitors: '',
-                review: ''
+                longevity: '',
+                photos: [],
+                vesselSubjectToInspection: false,
+                numberOfJumboJets: '',
+                notes: '',
+                deliveryDate: '',
+                expiryDate: ''
             })
             setErrors({})
         }
@@ -132,15 +144,17 @@ export default function NavigationOfficerPage() {
     const handleCloseModal = () => {
         setShowModal(false)
         setFormData({
-            deliveryDate: '',
-            expiryDate: '',
+            vesselName: '',
+            dateOfDelivery: '',
             returns: '',
-            durationOfStay: '',
-            downloadRate: '',
-            screenshotRate: '',
-            numberOfGames: '',
             competitors: '',
-            review: ''
+            longevity: '',
+            photos: [],
+            vesselSubjectToInspection: false,
+            numberOfJumboJets: '',
+            notes: '',
+            deliveryDate: '',
+            expiryDate: ''
         })
         setErrors({})
         window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -193,6 +207,62 @@ export default function NavigationOfficerPage() {
 
                 <div className="report-form-container">
                     <form onSubmit={handleSubmit}>
+                        {/* Vessel Information Section */}
+                        <div className="form-section">
+                            <h3 className="section-title">
+                                <span className="section-icon">🚢</span>
+                                Vessel Information
+                            </h3>
+
+                            <div className="form-row">
+                                <div className="form-group">
+                                    <label htmlFor="vesselName" className="form-label required">Vessel Name</label>
+                                    <input
+                                        type="text"
+                                        id="vesselName"
+                                        name="vesselName"
+                                        className={`form-input ${errors.vesselName ? 'error' : ''}`}
+                                        placeholder="Enter vessel name"
+                                        value={formData.vesselName}
+                                        onChange={handleInputChange}
+                                        required
+                                    />
+                                    {errors.vesselName && <span className="form-error">{errors.vesselName}</span>}
+                                </div>
+
+                                <div className="form-group">
+                                    <label htmlFor="numberOfJumboJets" className="form-label required">Number of Jumbo Jets</label>
+                                    <input
+                                        type="number"
+                                        id="numberOfJumboJets"
+                                        name="numberOfJumboJets"
+                                        className={`form-input ${errors.numberOfJumboJets ? 'error' : ''}`}
+                                        placeholder="Enter number"
+                                        min="0"
+                                        value={formData.numberOfJumboJets}
+                                        onChange={handleInputChange}
+                                        required
+                                    />
+                                    {errors.numberOfJumboJets && <span className="form-error">{errors.numberOfJumboJets}</span>}
+                                </div>
+                            </div>
+
+                            <div className="form-row">
+                                <div className="form-group">
+                                    <label className="form-label checkbox-label">
+                                        <input
+                                            type="checkbox"
+                                            name="vesselSubjectToInspection"
+                                            checked={formData.vesselSubjectToInspection}
+                                            onChange={handleInputChange}
+                                            className="form-checkbox"
+                                        />
+                                        <span>Vessel subject to inspection</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
                         {/* Delivery Information Section */}
                         <div className="form-section">
                             <h3 className="section-title">
@@ -201,6 +271,20 @@ export default function NavigationOfficerPage() {
                             </h3>
 
                             <div className="form-row">
+                                <div className="form-group">
+                                    <label htmlFor="dateOfDelivery" className="form-label required">Date of Delivery</label>
+                                    <input
+                                        type="date"
+                                        id="dateOfDelivery"
+                                        name="dateOfDelivery"
+                                        className={`form-input ${errors.dateOfDelivery ? 'error' : ''}`}
+                                        value={formData.dateOfDelivery}
+                                        onChange={handleInputChange}
+                                        required
+                                    />
+                                    {errors.dateOfDelivery && <span className="form-error">{errors.dateOfDelivery}</span>}
+                                </div>
+
                                 <div className="form-group">
                                     <label htmlFor="deliveryDate" className="form-label required">Delivery Date</label>
                                     <input
@@ -214,7 +298,9 @@ export default function NavigationOfficerPage() {
                                     />
                                     {errors.deliveryDate && <span className="form-error">{errors.deliveryDate}</span>}
                                 </div>
+                            </div>
 
+                            <div className="form-row">
                                 <div className="form-group">
                                     <label htmlFor="expiryDate" className="form-label required">Expiry Date</label>
                                     <input
@@ -228,108 +314,44 @@ export default function NavigationOfficerPage() {
                                     />
                                     {errors.expiryDate && <span className="form-error">{errors.expiryDate}</span>}
                                 </div>
+
+                                <div className="form-group">
+                                    <label htmlFor="longevity" className="form-label required">Longevity</label>
+                                    <input
+                                        type="date"
+                                        id="longevity"
+                                        name="longevity"
+                                        className={`form-input ${errors.longevity ? 'error' : ''}`}
+                                        value={formData.longevity}
+                                        onChange={handleInputChange}
+                                        required
+                                    />
+                                    {errors.longevity && <span className="form-error">{errors.longevity}</span>}
+                                </div>
                             </div>
+                        </div>
+
+                        {/* Additional Details Section */}
+                        <div className="form-section">
+                            <h3 className="section-title">
+                                <span className="section-icon">📋</span>
+                                Additional Details
+                            </h3>
 
                             <div className="form-row">
                                 <div className="form-group">
                                     <label htmlFor="returns" className="form-label required">Returns</label>
                                     <input
-                                        type="number"
+                                        type="text"
                                         id="returns"
                                         name="returns"
                                         className={`form-input ${errors.returns ? 'error' : ''}`}
-                                        placeholder="Number of returns"
-                                        min="0"
+                                        placeholder="Enter returns information"
                                         value={formData.returns}
                                         onChange={handleInputChange}
                                         required
                                     />
                                     {errors.returns && <span className="form-error">{errors.returns}</span>}
-                                </div>
-
-                                <div className="form-group">
-                                    <label htmlFor="durationOfStay" className="form-label required">Duration of Stay</label>
-                                    <input
-                                        type="text"
-                                        id="durationOfStay"
-                                        name="durationOfStay"
-                                        className={`form-input ${errors.durationOfStay ? 'error' : ''}`}
-                                        placeholder="e.g., 2 hours, 3 days, etc."
-                                        value={formData.durationOfStay}
-                                        onChange={handleInputChange}
-                                        required
-                                    />
-                                    {errors.durationOfStay && <span className="form-error">{errors.durationOfStay}</span>}
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* Performance Metrics Section */}
-                        <div className="form-section">
-                            <h3 className="section-title">
-                                <span className="section-icon">📊</span>
-                                Performance Metrics
-                            </h3>
-
-                            <div className="form-row">
-                                <div className="form-group">
-                                    <label htmlFor="downloadRate" className="form-label required">Download Rate</label>
-                                    <div className="input-with-unit">
-                                        <input
-                                            type="number"
-                                            id="downloadRate"
-                                            name="downloadRate"
-                                            className={`form-input ${errors.downloadRate ? 'error' : ''}`}
-                                            placeholder="0-100"
-                                            min="0"
-                                            max="100"
-                                            step="0.1"
-                                            value={formData.downloadRate}
-                                            onChange={handleInputChange}
-                                            required
-                                        />
-                                        <span className="input-unit">%</span>
-                                    </div>
-                                    {errors.downloadRate && <span className="form-error">{errors.downloadRate}</span>}
-                                </div>
-
-                                <div className="form-group">
-                                    <label htmlFor="screenshotRate" className="form-label required">Screenshot Rate</label>
-                                    <div className="input-with-unit">
-                                        <input
-                                            type="number"
-                                            id="screenshotRate"
-                                            name="screenshotRate"
-                                            className={`form-input ${errors.screenshotRate ? 'error' : ''}`}
-                                            placeholder="0-100"
-                                            min="0"
-                                            max="100"
-                                            step="0.1"
-                                            value={formData.screenshotRate}
-                                            onChange={handleInputChange}
-                                            required
-                                        />
-                                        <span className="input-unit">%</span>
-                                    </div>
-                                    {errors.screenshotRate && <span className="form-error">{errors.screenshotRate}</span>}
-                                </div>
-                            </div>
-
-                            <div className="form-row">
-                                <div className="form-group">
-                                    <label htmlFor="numberOfGames" className="form-label required">Number of Games</label>
-                                    <input
-                                        type="number"
-                                        id="numberOfGames"
-                                        name="numberOfGames"
-                                        className={`form-input ${errors.numberOfGames ? 'error' : ''}`}
-                                        placeholder="Total games processed"
-                                        min="0"
-                                        value={formData.numberOfGames}
-                                        onChange={handleInputChange}
-                                        required
-                                    />
-                                    {errors.numberOfGames && <span className="form-error">{errors.numberOfGames}</span>}
                                 </div>
 
                                 <div className="form-group">
@@ -347,34 +369,59 @@ export default function NavigationOfficerPage() {
                                     {errors.competitors && <span className="form-error">{errors.competitors}</span>}
                                 </div>
                             </div>
-                        </div>
-
-                        {/* Review Section */}
-                        <div className="form-section">
-                            <h3 className="section-title">
-                                <span className="section-icon">📝</span>
-                                Detailed Review
-                            </h3>
 
                             <div className="form-row single-column">
                                 <div className="form-group">
-                                    <label htmlFor="review" className="form-label required">Review</label>
+                                    <label htmlFor="notes" className="form-label required">Notes</label>
                                     <textarea
-                                        id="review"
-                                        name="review"
-                                        className={`form-textarea ${errors.review ? 'error' : ''}`}
-                                        placeholder="Provide a detailed review of the delivery process, challenges faced, and observations..."
+                                        id="notes"
+                                        name="notes"
+                                        className={`form-textarea ${errors.notes ? 'error' : ''}`}
+                                        placeholder="Provide any additional notes or observations..."
                                         rows="6"
-                                        value={formData.review}
+                                        value={formData.notes}
                                         onChange={handleInputChange}
                                         required
                                     />
                                     <div className="char-counter">
-                                        {errors.review && <span className="form-error">{errors.review}</span>}
-                                        <span style={{ color: formData.review.length > 1000 ? 'var(--danger)' : 'var(--text-tertiary)' }}>
-                                            {formData.review.length} / 1000 characters
+                                        {errors.notes && <span className="form-error">{errors.notes}</span>}
+                                        <span style={{ color: formData.notes.length > 1000 ? 'var(--danger)' : 'var(--text-tertiary)' }}>
+                                            {formData.notes.length} / 1000 characters
                                         </span>
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Photo Upload Section */}
+                        <div className="form-section">
+                            <h3 className="section-title">
+                                <span className="section-icon">📸</span>
+                                Photos
+                            </h3>
+
+                            <div className="form-row single-column">
+                                <div className="form-group">
+                                    <label htmlFor="photos" className="form-label">Photos to be uploaded</label>
+                                    <input
+                                        type="file"
+                                        id="photos"
+                                        name="photos"
+                                        className="form-input"
+                                        accept="image/*"
+                                        multiple
+                                        onChange={handleInputChange}
+                                    />
+                                    {formData.photos.length > 0 && (
+                                        <div className="file-list">
+                                            <p className="file-count">Selected {formData.photos.length} photo(s):</p>
+                                            <ul>
+                                                {formData.photos.map((file, index) => (
+                                                    <li key={index}>{file.name}</li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                         </div>
@@ -418,12 +465,16 @@ export default function NavigationOfficerPage() {
                                         <span className="summary-value">{formatDateTime(submittedReport.submittedAt)}</span>
                                     </div>
                                     <div className="summary-item">
-                                        <span className="summary-label">Delivery Date:</span>
-                                        <span className="summary-value">{formatDate(submittedReport.deliveryDate)}</span>
+                                        <span className="summary-label">Vessel Name:</span>
+                                        <span className="summary-value">{submittedReport.vesselName}</span>
                                     </div>
                                     <div className="summary-item">
-                                        <span className="summary-label">Games Processed:</span>
-                                        <span className="summary-value">{submittedReport.numberOfGames}</span>
+                                        <span className="summary-label">Date of Delivery:</span>
+                                        <span className="summary-value">{formatDate(submittedReport.dateOfDelivery)}</span>
+                                    </div>
+                                    <div className="summary-item">
+                                        <span className="summary-label">Photos Uploaded:</span>
+                                        <span className="summary-value">{submittedReport.photoFileNames?.length || 0}</span>
                                     </div>
                                 </div>
 

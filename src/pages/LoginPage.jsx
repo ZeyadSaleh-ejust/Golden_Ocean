@@ -82,7 +82,7 @@ export default function LoginPage() {
             <div className="auth-container">
                 <div className="auth-card">
                     <div className="auth-header">
-                        <h1 className="auth-logo">🌊 Golden Ocean</h1>
+                        <img src="/logo.png" alt="Golden Ocean Marine Services" className="auth-logo-img" />
                         <p className="auth-subtitle">
                             {isLoginMode ? 'Sign in to your account' : 'Create a new account'}
                         </p>

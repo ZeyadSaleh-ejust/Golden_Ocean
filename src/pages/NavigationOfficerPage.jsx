@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
 import { useOrder } from '../contexts/OrderContext'
+import { useGPSContext } from '../contexts/GPSTrackingContext'
 import { useLocalStorage } from '../hooks/useLocalStorage'
 import { validateField, validateDateRange } from '../utils/validators'
 import { formatDate, formatDateTime } from '../utils/authUtils'
@@ -11,6 +12,7 @@ export default function NavigationOfficerPage() {
     const navigate = useNavigate()
     const { currentUser, logout } = useAuth()
     const { selectedOrderId, assignedOrders, clearSelectedOrder } = useOrder()
+    const { stopTracking } = useGPSContext()
     const [reports, setReports] = useLocalStorage('golden_ocean_reports', [])
 
     // Redirect if no order selected
@@ -116,6 +118,9 @@ export default function NavigationOfficerPage() {
             setSubmittedReport(report)
             setIsLoading(false)
             setShowModal(true)
+
+            // Stop GPS tracking
+            stopTracking()
 
             // Clear selected order after submission
             clearSelectedOrder()

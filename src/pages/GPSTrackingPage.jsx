@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
 import { useOrder } from '../contexts/OrderContext'
-import { useGPSTracking } from '../hooks/useGPSTracking'
+import { useGPSContext } from '../contexts/GPSTrackingContext'
 import { formatCoordinate } from '../utils/orderUtils'
 import '../styles/navigation.css'
 import '../styles/map.css'
@@ -19,7 +19,7 @@ export default function GPSTrackingPage() {
         isTracking,
         permission,
         startTracking
-    } = useGPSTracking(selectedOrderId, currentUser.id)
+    } = useGPSContext()
 
     // Redirect if no order selected
     useEffect(() => {

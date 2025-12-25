@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
-import { useLocalStorage } from '../hooks/useLocalStorage'
+import { useOrder } from '../contexts/OrderContext'
 import { useLocationPolling } from '../hooks/useLocationPolling'
 import { useLoadScript } from '@react-google-maps/api'
 import LiveMap from '../components/LiveMap'
@@ -14,7 +14,7 @@ import '../styles/admin-maps.css'
 export default function AdminPage() {
     const navigate = useNavigate()
     const { currentUser, logout } = useAuth()
-    const [assignedOrders] = useLocalStorage('golden_ocean_assigned_orders', [])
+    const { assignedOrders } = useOrder()
     const [selectedOrderId, setSelectedOrderId] = useState(null)
     const { locations, isLoading, lastUpdate } = useLocationPolling(5000)
 
@@ -33,7 +33,7 @@ export default function AdminPage() {
         ...uniqueOrders,
         ...assignedOrders.filter(order =>
             !uniqueOrders.find(o => o.id === order.id) &&
-            (order.status === 'in-transit' || order.status === 'assigned')
+            order.status === 'assigned'
         )
     ]
 

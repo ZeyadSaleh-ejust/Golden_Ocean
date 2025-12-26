@@ -4,19 +4,24 @@ import { useAuth } from '../hooks/useAuth'
 import { useOrder } from '../contexts/OrderContext'
 import { useLocationPolling } from '../hooks/useLocationPolling'
 import { useLoadScript } from '@react-google-maps/api'
-import LiveMap from '../components/LiveMap'
 import OrderListSidebar from '../components/OrderListSidebar'
-import OrderDetailsPanel from '../components/OrderDetailsPanel'
-import { getLocationHistory } from '../utils/orderUtils'
+import SelectedOrderMapView from '../components/SelectedOrderMapView'
 import '../styles/admin.css'
 import '../styles/admin-maps.css'
 
+/**
+ * AdminPage Component
+ * 
+ * Main admin dashboard with two-panel layout:
+ * - Left Panel: Order list sidebar (OrderListSidebar)
+ * - Center Panel: Selected order's live location map only (SelectedOrderMapView)
+ */
 export default function AdminPage() {
     const navigate = useNavigate()
     const { currentUser, logout } = useAuth()
     const { assignedOrders } = useOrder()
     const [selectedOrderId, setSelectedOrderId] = useState(null)
-    const { locations, isLoading, lastUpdate } = useLocationPolling()
+    const { locations, lastUpdate } = useLocationPolling()
 
     const { isLoaded, loadError } = useLoadScript({
         googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY || ''
@@ -37,9 +42,13 @@ export default function AdminPage() {
         )
     ]
 
-    const selectedOrder = selectedOrderId ? allOrders.find(o => o.id === selectedOrderId) : null
-    const selectedLocation = selectedOrderId ? locations.find(loc => loc.orderId === selectedOrderId) : null
-    const locationHistory = selectedOrderId ? getLocationHistory(selectedOrderId) : []
+    // Derived state for selected order
+    const selectedOrder = selectedOrderId
+        ? allOrders.find(o => o.id === selectedOrderId)
+        : null
+    const selectedLocation = selectedOrderId
+        ? locations.find(loc => loc.orderId === selectedOrderId)
+        : null
 
     const handleLogout = () => {
         if (confirm('Are you sure you want to logout?')) {
@@ -82,6 +91,7 @@ export default function AdminPage() {
             </header>
 
             <div className="admin-layout">
+                {/* Left Panel: Order List */}
                 <OrderListSidebar
                     orders={allOrders}
                     locations={locations}
@@ -90,27 +100,14 @@ export default function AdminPage() {
                     onSelectOrder={handleSelectOrder}
                 />
 
+                {/* Center Panel: Selected Order Map Only */}
                 <main className="tracking-view">
-                    <div className="map-container">
-                        <LiveMap
-                            locations={locations}
-                            selectedOrderId={selectedOrderId}
-                            onMarkerClick={handleSelectOrder}
-                            isLoaded={isLoaded}
-                            loadError={loadError}
-                        />
-                    </div>
-
-                    {selectedOrder && (
-                        <OrderDetailsPanel
-                            selectedOrder={selectedOrder}
-                            selectedLocation={selectedLocation}
-                            locationHistory={locationHistory}
-                            isLoaded={isLoaded}
-                            loadError={loadError}
-                            onClose={() => setSelectedOrderId(null)}
-                        />
-                    )}
+                    <SelectedOrderMapView
+                        selectedOrder={selectedOrder}
+                        selectedLocation={selectedLocation}
+                        isLoaded={isLoaded}
+                        loadError={loadError}
+                    />
                 </main>
             </div>
         </div>

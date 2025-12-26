@@ -155,11 +155,22 @@ export function getLatestLocations() {
         }
     })
 
-    // Combine with order information
+    // Combine with order information and normalize data structure
     return Object.values(latestByOrder).map(update => {
         const order = orders.find(o => o.id === update.orderId)
+
+        // Normalize location structure - handle both legacy and new formats
+        // Legacy: { lat, lng, ... } at top level
+        // New: { location: { lat, lng }, ... }
+        let location = update.location
+        if (!location && (update.lat !== undefined && update.lng !== undefined)) {
+            // Legacy format - create nested location object
+            location = { lat: update.lat, lng: update.lng }
+        }
+
         return {
             ...update,
+            location,  // Normalized location object
             order: order || null
         }
     }).filter(item => item.order !== null)

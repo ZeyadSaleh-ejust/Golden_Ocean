@@ -5,7 +5,7 @@
 // GPS & Location Tracking
 export const GPS_CONFIG = {
     // Interval for admin polling location updates (ms)
-    POLLING_INTERVAL: 5000,
+    POLLING_INTERVAL: 50000,
 
     // Maximum age for cached GPS positions (ms)
     MAXIMUM_GPS_AGE: 5000,

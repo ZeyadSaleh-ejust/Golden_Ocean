@@ -2,7 +2,8 @@ import { GoogleMap, Marker, Circle } from '@react-google-maps/api'
 
 const mapContainerStyle = {
     width: '100%',
-    height: '300px',
+    height: '100%',  // Changed to 100% for flexible sizing in different contexts
+    minHeight: '300px',  // Minimum height for usability
     borderRadius: '12px'
 }
 
@@ -35,6 +36,15 @@ export default function OfficerLocationMap({ location, destination, accuracy, is
         return (
             <div className="mini-map-loading">
                 <div className="spinner"></div>
+            </div>
+        )
+    }
+
+    // Guard against undefined location
+    if (!location || typeof location.lat === 'undefined' || typeof location.lng === 'undefined') {
+        return (
+            <div className="mini-map-error">
+                <p>Location data unavailable</p>
             </div>
         )
     }

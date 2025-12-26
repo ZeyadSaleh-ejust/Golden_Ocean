@@ -1,7 +1,8 @@
 import { useState, useEffect, useCallback } from 'react'
 import { getLatestLocations } from '../utils/orderUtils'
+import { GPS_CONFIG } from '../utils/constants'
 
-export function useLocationPolling(interval = 5000) {
+export function useLocationPolling(interval = GPS_CONFIG.POLLING_INTERVAL) {
     const [locations, setLocations] = useState([])
     const [isLoading, setIsLoading] = useState(true)
     const [lastUpdate, setLastUpdate] = useState(null)

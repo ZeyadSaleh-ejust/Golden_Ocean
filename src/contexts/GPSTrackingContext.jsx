@@ -2,6 +2,7 @@ import { createContext, useContext, useState, useEffect, useCallback, useRef } f
 import { useOrder } from './OrderContext'
 import { useAuth } from '../hooks/useAuth'
 import { createLocationUpdate } from '../utils/orderUtils'
+import { GPS_CONFIG } from '../utils/constants'
 
 const GPSTrackingContext = createContext(null)
 
@@ -32,7 +33,7 @@ export function GPSTrackingProvider({ children }) {
             const initialPosition = await new Promise((resolve, reject) => {
                 navigator.geolocation.getCurrentPosition(resolve, reject, {
                     enableHighAccuracy: true,
-                    timeout: 10000,
+                    timeout: GPS_CONFIG.GPS_TIMEOUT,
                     maximumAge: 0
                 })
             })
@@ -71,8 +72,8 @@ export function GPSTrackingProvider({ children }) {
                 },
                 {
                     enableHighAccuracy: true,
-                    timeout: 10000,
-                    maximumAge: 5000 // Accept cached positions up to 5 seconds old
+                    timeout: GPS_CONFIG.GPS_TIMEOUT,
+                    maximumAge: GPS_CONFIG.MAXIMUM_GPS_AGE
                 }
             )
 

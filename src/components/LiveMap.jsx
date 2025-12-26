@@ -2,6 +2,7 @@ import { useCallback, useState } from 'react'
 import { GoogleMap, Marker, InfoWindow, Polyline } from '@react-google-maps/api'
 import { formatCoordinate } from '../utils/orderUtils'
 import { formatDateTime } from '../utils/authUtils'
+import { GPS_CONFIG } from '../utils/constants'
 
 const mapContainerStyle = {
     width: '100%',
@@ -81,7 +82,7 @@ export default function LiveMap({ locations, selectedOrderId, onMarkerClick, isL
         const now = new Date()
         const locationTime = new Date(timestamp)
         const diffSeconds = (now - locationTime) / 1000
-        return diffSeconds < 30 // Within last 30 seconds
+        return diffSeconds < GPS_CONFIG.LIVE_LOCATION_THRESHOLD
     }
 
     if (loadError) {

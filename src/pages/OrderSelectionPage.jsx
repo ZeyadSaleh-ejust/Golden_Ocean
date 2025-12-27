@@ -43,9 +43,9 @@ export default function OrderSelectionPage() {
             // Update context
             selectOrder(orderId)
 
-            // Navigate to order details page after short delay
+            // Navigate to report page after short delay
             setTimeout(() => {
-                navigate('/navigation-officer/order-details')
+                navigate('/navigation-officer/report')
             }, 500)
         }
     }

@@ -4,7 +4,8 @@
 
 const ROLES = {
     NAVIGATION_OFFICER: 'navigation-officer',
-    ADMIN: 'admin'
+    ADMIN: 'admin',
+    MANAGER: 'manager'
 }
 
 /**
@@ -58,6 +59,13 @@ export function initializeDemoUsers() {
             username: 'admin',
             password: 'admin123',
             role: ROLES.ADMIN,
+            createdAt: new Date().toISOString()
+        },
+        {
+            id: 'demo-manager-1',
+            username: 'manager',
+            password: 'manager123',
+            role: ROLES.MANAGER,
             createdAt: new Date().toISOString()
         }
     ]

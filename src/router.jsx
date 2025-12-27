@@ -1,10 +1,11 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom'
 import LoginPage from './pages/LoginPage'
 import OrderSelectionPage from './pages/OrderSelectionPage'
-import OrderDetailsPage from './pages/OrderDetailsPage'
+
 import GPSTrackingPage from './pages/GPSTrackingPage'
 import NavigationOfficerPage from './pages/NavigationOfficerPage'
 import AdminPage from './pages/AdminPage'
+import ManagerPage from './pages/ManagerPage'
 import ProtectedRoute from './components/ProtectedRoute'
 
 export const router = createBrowserRouter([
@@ -24,14 +25,7 @@ export const router = createBrowserRouter([
             </ProtectedRoute>
         )
     },
-    {
-        path: '/navigation-officer/order-details',
-        element: (
-            <ProtectedRoute role="navigation-officer">
-                <OrderDetailsPage />
-            </ProtectedRoute>
-        )
-    },
+
     {
         path: '/navigation-officer/tracking',
         element: (
@@ -45,6 +39,14 @@ export const router = createBrowserRouter([
         element: (
             <ProtectedRoute role="navigation-officer">
                 <NavigationOfficerPage />
+            </ProtectedRoute>
+        )
+    },
+    {
+        path: '/manager',
+        element: (
+            <ProtectedRoute role="manager">
+                <ManagerPage />
             </ProtectedRoute>
         )
     },

@@ -161,6 +161,24 @@ export default function LoginPage() {
                                             <div className="role-description">Track orders</div>
                                         </label>
                                     </div>
+
+                                    <div className="role-option">
+                                        <input
+                                            type="radio"
+                                            id="roleManager"
+                                            name="role"
+                                            value={ROLES.MANAGER}
+                                            className="role-input"
+                                            checked={formData.role === ROLES.MANAGER}
+                                            onChange={handleInputChange}
+                                            required
+                                        />
+                                        <label htmlFor="roleManager" className="role-label">
+                                            <div className="role-icon">📋</div>
+                                            <div className="role-name">Manager</div>
+                                            <div className="role-description">Create orders</div>
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
                         )}
@@ -189,7 +207,8 @@ export default function LoginPage() {
                     <div className="alert alert-info mt-lg" style={{ fontSize: 'var(--font-size-xs)' }}>
                         <strong>Demo Accounts:</strong><br />
                         Officer: <code style={{ color: 'var(--info)' }}>officer / officer123</code><br />
-                        Admin: <code style={{ color: 'var(--info)' }}>admin / admin123</code>
+                        Admin: <code style={{ color: 'var(--info)' }}>admin / admin123</code><br />
+                        Manager: <code style={{ color: 'var(--info)' }}>manager / manager123</code>
                     </div>
                 </div>
             </div>

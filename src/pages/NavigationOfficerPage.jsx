@@ -90,8 +90,8 @@ export default function NavigationOfficerPage() {
     }
 
     const handleBack = () => {
-        // Go back to order details if coming from there, otherwise to tracking
-        navigate('/navigation-officer/order-details')
+        // Go back to order selection page
+        navigate('/navigation-officer/select-order')
     }
 
     if (!selectedOrder) {

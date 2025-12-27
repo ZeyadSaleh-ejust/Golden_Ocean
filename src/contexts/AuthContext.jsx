@@ -59,7 +59,7 @@ export function AuthProvider({ children }) {
 
         const user = users.find(u =>
             u.username.toLowerCase() === username.toLowerCase() &&
-            u.password === password 
+            u.password === password
         )
 
         if (!user) {
@@ -93,6 +93,8 @@ export function AuthProvider({ children }) {
                 return '/navigation-officer'
             case ROLES.ADMIN:
                 return '/admin'
+            case ROLES.MANAGER:
+                return '/manager'
             default:
                 return '/'
         }

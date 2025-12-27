@@ -1,6 +1,7 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom'
 import LoginPage from './pages/LoginPage'
 import OrderSelectionPage from './pages/OrderSelectionPage'
+import OrderDetailsPage from './pages/OrderDetailsPage'
 import GPSTrackingPage from './pages/GPSTrackingPage'
 import NavigationOfficerPage from './pages/NavigationOfficerPage'
 import AdminPage from './pages/AdminPage'
@@ -13,13 +14,21 @@ export const router = createBrowserRouter([
     },
     {
         path: '/navigation-officer',
-        element: <Navigate to="/navigation-officer/select-order" replace />
+        element: <Navigate to="/navigation-officer/tracking" replace />
     },
     {
         path: '/navigation-officer/select-order',
         element: (
             <ProtectedRoute role="navigation-officer">
                 <OrderSelectionPage />
+            </ProtectedRoute>
+        )
+    },
+    {
+        path: '/navigation-officer/order-details',
+        element: (
+            <ProtectedRoute role="navigation-officer">
+                <OrderDetailsPage />
             </ProtectedRoute>
         )
     },

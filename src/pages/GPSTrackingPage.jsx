@@ -6,6 +6,7 @@ import { useGPSContext } from '../contexts/GPSTrackingContext'
 import { formatCoordinate } from '../utils/orderUtils'
 import '../styles/navigation.css'
 import '../styles/map.css'
+import '../styles/tracking-modern.css'
 
 export default function GPSTrackingPage() {
     const navigate = useNavigate()
@@ -21,28 +22,27 @@ export default function GPSTrackingPage() {
         startTracking
     } = useGPSContext()
 
-    // Redirect if no order selected
-    useEffect(() => {
-        if (!selectedOrderId) {
-            navigate('/navigation-officer/select-order')
-        }
-    }, [selectedOrderId, navigate])
-
     // Update permission step based on GPS permission
-    // Auto-navigate to report page when permission is granted
+    // Auto-navigate to report page when permission is granted (only if order is selected)
     useEffect(() => {
-        if (permission === 'granted') {
+        if (permission === 'granted' && selectedOrderId) {
             // Navigate directly to report page instead of showing location display
             navigate('/navigation-officer/report')
         } else if (permission === 'denied') {
             setPermissionStep('denied')
         }
-    }, [permission, navigate])
+    }, [permission, selectedOrderId, navigate])
 
     const selectedOrder = assignedOrders.find(o => o.id === selectedOrderId)
 
     const handleRequestPermission = async () => {
-        await startTracking()
+        // If no order selected, navigate to order selection
+        if (!selectedOrderId) {
+            navigate('/navigation-officer/select-order')
+        } else {
+            // Otherwise, start tracking
+            await startTracking()
+        }
     }
 
     const handleProceedToReport = () => {
@@ -57,29 +57,30 @@ export default function GPSTrackingPage() {
         }
     }
 
-    if (!selectedOrder) {
-        return null
+    const handleBack = () => {
+        // Go back to login page / logout
+        clearSelectedOrder()
+        logout()
+        navigate('/', { replace: true })
     }
 
     return (
-        <div className="navigation-page">
-            <header className="page-header">
-                <div className="header-content">
-                    <div className="header-title">
-                        <div className="header-icon">⚓</div>
-                        <div className="header-text">
-                            <h1>Navigation Officer</h1>
-                            <p>GPS Tracking - {selectedOrder.id}</p>
-                        </div>
-                    </div>
-                    <div className="header-actions">
-                        <div className="user-info">
-                            <div className="user-avatar">{currentUser.username.charAt(0).toUpperCase()}</div>
-                            <span className="user-name">{currentUser.username}</span>
-                        </div>
-                        <button className="btn btn-secondary btn-sm" onClick={handleLogout}>
-                            Logout
-                        </button>
+        <div className="tracking-page-modern">
+            <header className="modern-header">
+                <button
+                    className="back-btn"
+                    onClick={handleBack}
+                    aria-label="Back to Login"
+                >
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                </button>
+                <h1 className="header-title">Navigator</h1>
+                <div className="header-user">
+                    <span className="user-name-header">{currentUser.username}</span>
+                    <div className="user-avatar-header">
+                        {currentUser.username.charAt(0).toUpperCase()}
                     </div>
                 </div>
             </header>
@@ -89,38 +90,58 @@ export default function GPSTrackingPage() {
                     <div className="gps-permission-request">
                         <div className="permission-card">
                             <div className="permission-icon">📍</div>
-                            <h2>Location Permission Required</h2>
-                            <p className="permission-description">
-                                To track your delivery route in real-time, we need access to your device's location.
-                                Your location will be shared with the admin dashboard while you're on duty.
-                            </p>
+                            {!selectedOrder ? (
+                                <>
+                                    <h2>Welcome, {currentUser.username}!</h2>
+                                    <p className="permission-description">
+                                        Ready to start your delivery? Click the button below to select an order and begin tracking.
+                                    </p>
+                                    <button
+                                        className="btn btn-primary btn-lg"
+                                        onClick={handleRequestPermission}
+                                    >
+                                        Select Order & Enable Tracking
+                                    </button>
+                                    <p className="permission-note">
+                                        ℹ️ You'll be able to select from available orders and enable location tracking.
+                                    </p>
+                                </>
+                            ) : (
+                                <>
+                                    <h2>Location Permission Required</h2>
+                                    <p className="permission-description">
+                                        To track your delivery route in real-time, we need access to your device's location.
+                                        Your location will be shared with the admin dashboard while you're on duty.
+                                    </p>
 
-                            <div className="order-info-box">
-                                <h3>Current Order</h3>
-                                <div className="info-row">
-                                    <span className="info-label">Order ID:</span>
-                                    <span className="info-value">{selectedOrder.id}</span>
-                                </div>
-                                <div className="info-row">
-                                    <span className="info-label">Destination:</span>
-                                    <span className="info-value">{selectedOrder.destination.name}</span>
-                                </div>
-                                <div className="info-row">
-                                    <span className="info-label">Customer:</span>
-                                    <span className="info-value">{selectedOrder.customerName}</span>
-                                </div>
-                            </div>
+                                    <div className="order-info-box">
+                                        <h3>Current Order</h3>
+                                        <div className="info-row">
+                                            <span className="info-label">Order ID:</span>
+                                            <span className="info-value">{selectedOrder.id}</span>
+                                        </div>
+                                        <div className="info-row">
+                                            <span className="info-label">Destination:</span>
+                                            <span className="info-value">{selectedOrder.destination.name}</span>
+                                        </div>
+                                        <div className="info-row">
+                                            <span className="info-label">Customer:</span>
+                                            <span className="info-value">{selectedOrder.customerName}</span>
+                                        </div>
+                                    </div>
 
-                            <button
-                                className="btn btn-primary btn-lg"
-                                onClick={handleRequestPermission}
-                            >
-                                Enable Location Tracking
-                            </button>
+                                    <button
+                                        className="btn btn-primary btn-lg"
+                                        onClick={handleRequestPermission}
+                                    >
+                                        Enable Location Tracking
+                                    </button>
 
-                            <p className="permission-note">
-                                ℹ️ Your browser will ask for location permission. Please allow it to continue.
-                            </p>
+                                    <p className="permission-note">
+                                        ℹ️ Your browser will ask for location permission. Please allow it to continue.
+                                    </p>
+                                </>
+                            )}
                         </div>
                     </div>
                 )}

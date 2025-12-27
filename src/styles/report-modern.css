@@ -1,0 +1,508 @@
+/* ==========================================
+   REPORT PAGE - MODERN STYLING
+   ========================================== */
+
+.report-page-modern {
+    min-height: 100vh;
+    background: #f5f7fa;
+    padding-bottom: 24px;
+}
+
+/* Modern Header */
+.report-page-modern .modern-header {
+    background: white;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    margin-bottom: 24px;
+}
+
+.report-page-modern .back-btn {
+    width: 40px;
+    height: 40px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    padding: 8px;
+    color: #1a202c;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease;
+    border-radius: 8px;
+}
+
+.report-page-modern .back-btn:hover {
+    background: #f5f7fa;
+}
+
+.report-page-modern .modern-header .header-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #1a202c;
+    margin: 0;
+    flex: 1;
+    text-align: center;
+}
+
+.report-page-modern .header-user {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.report-page-modern .user-name-header {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #1a202c;
+}
+
+.report-page-modern .user-avatar-header {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: white;
+}
+
+/* Main Content */
+.report-page-modern .main-content {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Report Form Card */
+.report-form-modern {
+    background: white;
+    border-radius: 16px;
+    padding: 32px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    margin-bottom: 24px;
+}
+
+.report-form-modern h2 {
+    font-size: 1.875rem;
+    font-weight: 700;
+    color: #1a202c;
+    margin: 0 0 16px 0;
+}
+
+.report-form-modern .form-subtitle {
+    font-size: 1rem;
+    color: #64748b;
+    margin: 0 0 32px 0;
+    line-height: 1.6;
+}
+
+/* Order Summary */
+.report-page-modern .order-summary {
+    background: #f5f7fa;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 32px;
+}
+
+.report-page-modern .order-summary h3 {
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin: 0 0 16px 0;
+}
+
+.report-page-modern .summary-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.report-page-modern .summary-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.report-page-modern .summary-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #94a3b8;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.report-page-modern .summary-value {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #1a202c;
+}
+
+.report-page-modern .summary-value.large {
+    font-size: 1.25rem;
+    color: #0ea5e9;
+}
+
+/* Form Section */
+.report-page-modern .form-section {
+    margin-bottom: 32px;
+}
+
+.report-page-modern .form-section:last-of-type {
+    margin-bottom: 0;
+}
+
+.report-page-modern .section-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #1a202c;
+    margin: 0 0 20px 0;
+}
+
+/* Form Groups */
+.report-page-modern .form-group {
+    margin-bottom: 24px;
+}
+
+.report-page-modern .form-group:last-child {
+    margin-bottom: 0;
+}
+
+.report-page-modern label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #1a202c;
+    margin-bottom: 8px;
+}
+
+.report-page-modern label.required::after {
+    content: ' *';
+    color: #ef4444;
+}
+
+.report-page-modern input[type="text"],
+.report-page-modern input[type="number"],
+.report-page-modern textarea,
+.report-page-modern select {
+    width: 100%;
+    padding: 12px 16px;
+    font-size: 1rem;
+    color: #1a202c;
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    font-family: inherit;
+}
+
+.report-page-modern input[type="text"]:focus,
+.report-page-modern input[type="number"]:focus,
+.report-page-modern textarea:focus,
+.report-page-modern select:focus {
+    outline: none;
+    border-color: #0ea5e9;
+    box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
+}
+
+.report-page-modern input[type="text"]::placeholder,
+.report-page-modern textarea::placeholder {
+    color: #94a3b8;
+}
+
+.report-page-modern textarea {
+    min-height: 120px;
+    resize: vertical;
+    line-height: 1.5;
+}
+
+.report-page-modern input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+.report-page-modern input[type="number"]::-webkit-outer-spin-button,
+.report-page-modern input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.report-page-modern .input-hint {
+    font-size: 0.75rem;
+    color: #94a3b8;
+    margin-top: 6px;
+}
+
+/* Character Counter */
+.report-page-modern .char-counter {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 8px;
+}
+
+.report-page-modern .char-limit-normal {
+    font-size: 0.75rem;
+    color: #94a3b8;
+}
+
+.report-page-modern .char-limit-exceeded {
+    font-size: 0.75rem;
+    color: #ef4444;
+    font-weight: 600;
+}
+
+
+/* Checkbox and Radio Groups */
+.report-page-modern .checkbox-group,
+.report-page-modern .radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.report-page-modern .checkbox-item,
+.report-page-modern .radio-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.report-page-modern input[type="checkbox"],
+.report-page-modern input[type="radio"] {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    accent-color: #0ea5e9;
+}
+
+.report-page-modern .checkbox-item label,
+.report-page-modern .radio-item label {
+    margin: 0;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+/* Buttons */
+.report-page-modern .form-actions {
+    display: flex;
+    gap: 12px;
+    padding-top: 32px;
+    border-top: 1px solid #e2e8f0;
+}
+
+.report-page-modern .btn-primary {
+    flex: 1;
+    background: #0ea5e9;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 16px 24px;
+    font-size: 1.125rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);
+}
+
+.report-page-modern .btn-primary:hover {
+    background: #0284c7;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(14, 165, 233, 0.4);
+}
+
+.report-page-modern .btn-primary:active {
+    transform: translateY(0);
+}
+
+.report-page-modern .btn-primary:disabled {
+    background: #94a3b8;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.report-page-modern .btn-secondary {
+    flex: 1;
+    background: white;
+    color: #64748b;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 16px 24px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.report-page-modern .btn-secondary:hover {
+    background: #f8fafc;
+    border-color: #cbd5e1;
+    color: #475569;
+}
+
+/* Success Message */
+.report-page-modern .success-message {
+    background: white;
+    border-radius: 16px;
+    padding: 40px 32px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    text-align: center;
+}
+
+.report-page-modern .success-icon {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    margin: 0 auto 24px;
+}
+
+.report-page-modern .success-message h2 {
+    font-size: 1.875rem;
+    font-weight: 700;
+    color: #1a202c;
+    margin: 0 0 16px 0;
+}
+
+.report-page-modern .success-message p {
+    font-size: 1rem;
+    color: #64748b;
+    line-height: 1.6;
+    margin: 0 0 32px 0;
+}
+
+.report-page-modern .submitted-report {
+    background: #f5f7fa;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 32px;
+    text-align: left;
+}
+
+.report-page-modern .submitted-report h3 {
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin: 0 0 16px 0;
+}
+
+.report-page-modern .report-detail {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.report-page-modern .report-detail:last-child {
+    border-bottom: none;
+}
+
+.report-page-modern .report-detail-label {
+    font-size: 0.875rem;
+    color: #94a3b8;
+    font-weight: 500;
+}
+
+.report-page-modern .report-detail-value {
+    font-size: 0.875rem;
+    color: #1a202c;
+    font-weight: 600;
+    text-align: right;
+}
+
+/* Validation Errors */
+.report-page-modern .error-message {
+    background: #fee2e2;
+    border: 1px solid #fecaca;
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-top: 8px;
+}
+
+.report-page-modern .error-message p {
+    font-size: 0.875rem;
+    color: #991b1b;
+    margin: 0;
+}
+
+/* Loading State */
+.report-page-modern .loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.report-page-modern .loading-spinner {
+    width: 60px;
+    height: 60px;
+    border: 4px solid white;
+    border-top-color: #0ea5e9;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+    .report-page-modern .modern-header {
+        padding: 12px 16px;
+    }
+
+    .report-page-modern .modern-header .header-title {
+        font-size: 1.125rem;
+    }
+
+    .report-page-modern .user-name-header {
+        display: none;
+    }
+
+    .report-page-modern .main-content {
+        padding: 0 16px;
+    }
+
+    .report-form-modern {
+        padding: 24px;
+    }
+
+    .report-form-modern h2 {
+        font-size: 1.5rem;
+    }
+
+    .report-page-modern .summary-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .report-page-modern .form-actions {
+        flex-direction: column;
+    }
+
+    .report-page-modern .btn-primary,
+    .report-page-modern .btn-secondary {
+        width: 100%;
+    }
+}

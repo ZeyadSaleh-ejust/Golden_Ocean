@@ -1,5 +1,4 @@
 import { createContext, useContext, useState, useEffect } from 'react'
-import { initializeMockOrders } from '../utils/orderUtils'
 
 const OrderContext = createContext(null)
 
@@ -13,15 +12,6 @@ export function OrderProvider({ children }) {
         const stored = localStorage.getItem('golden_ocean_assigned_orders')
         return stored ? JSON.parse(stored) : []
     })
-
-    // Initialize mock orders on first load
-    useEffect(() => {
-        if (assignedOrders.length === 0) {
-            const mockOrders = initializeMockOrders()
-            setAssignedOrders(mockOrders)
-            console.log('Mock orders initialized:', mockOrders.length, 'orders')
-        }
-    }, [])
 
     useEffect(() => {
         if (selectedOrderId) {

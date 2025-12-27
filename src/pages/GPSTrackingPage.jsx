@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
 import { useOrder } from '../contexts/OrderContext'
@@ -13,6 +13,7 @@ export default function GPSTrackingPage() {
     const { currentUser, logout } = useAuth()
     const { selectedOrderId, assignedOrders, clearSelectedOrder } = useOrder()
     const [permissionStep, setPermissionStep] = useState('request') // 'request', 'granted', 'denied'
+    const hasCleared = useRef(false)
 
     const {
         location,
@@ -22,9 +23,14 @@ export default function GPSTrackingPage() {
         startTracking
     } = useGPSContext()
 
-    // Clear selected order on initial mount to ensure welcome screen is always shown first
+    // Clear selected order ONLY on first visit (when there's no order selected)
+    // If user is returning from order selection page with an order, keep it
     useEffect(() => {
-        clearSelectedOrder()
+        if (!hasCleared.current && !selectedOrderId) {
+            clearSelectedOrder()
+            hasCleared.current = true
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     // Update permission step based on GPS permission

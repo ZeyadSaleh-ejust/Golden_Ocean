@@ -83,7 +83,7 @@ export default function ManagerPage() {
                     lat: 25.2048, // Default Dubai coordinates
                     lng: 55.2708
                 },
-                assignedTo: null,
+                assignedTo: order.navigator, // Assign to the selected navigator
                 createdAt: new Date().toISOString(),
                 estimatedDelivery: etaDateTime.toISOString(),
                 customerName: order.navigator,

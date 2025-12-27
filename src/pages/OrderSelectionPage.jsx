@@ -23,14 +23,14 @@ export default function OrderSelectionPage() {
     const { assignedOrders, selectOrder } = useOrder()
     const [isLoading, setIsLoading] = useState(null)
 
-    // Filter orders available for this officer
+    // Filter orders available for this officer - only show orders assigned to them
     const availableOrders = assignedOrders.filter(
-        order => order.status === 'assigned' || order.assignedTo === currentUser.id
+        order => order.assignedTo === currentUser.username
     )
 
-    // Count active orders (in-transit or assigned to current user)
+    // Count active orders assigned to current user
     const activeOrderCount = availableOrders.filter(
-        order => order.status === 'in-transit' || order.assignedTo === currentUser.id
+        order => order.status === 'in-transit' || order.assignedTo === currentUser.username
     ).length
 
     const handleStartDelivery = (orderId) => {
@@ -43,9 +43,9 @@ export default function OrderSelectionPage() {
             // Update context
             selectOrder(orderId)
 
-            // Navigate to report page after short delay
+            // Navigate back to tracking page to enable GPS
             setTimeout(() => {
-                navigate('/navigation-officer/report')
+                navigate('/navigation-officer/tracking')
             }, 500)
         }
     }

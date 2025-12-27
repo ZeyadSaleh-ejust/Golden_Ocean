@@ -7,6 +7,7 @@ import { useLoadScript } from '@react-google-maps/api'
 import LiveMap from '../components/features/tracking/LiveMap'
 import OrderListSidebar from '../components/features/orders/OrderListSidebar'
 import OrderDetailsPanel from '../components/features/orders/OrderDetailsPanel'
+import ReportsListModal from '../components/features/reports/ReportsListModal'
 import { getLocationHistory } from '../utils/orderUtils'
 import '../styles/admin.css'
 import '../styles/admin-maps.css'
@@ -16,6 +17,7 @@ export default function AdminPage() {
     const { currentUser, logout } = useAuth()
     const { assignedOrders } = useOrder()
     const [selectedOrderId, setSelectedOrderId] = useState(null)
+    const [showReportsModal, setShowReportsModal] = useState(false)
     const { locations, isLoading, lastUpdate } = useLocationPolling()
 
     const { isLoaded, loadError } = useLoadScript({
@@ -74,6 +76,9 @@ export default function AdminPage() {
                             <div className="user-avatar">{currentUser.username.charAt(0).toUpperCase()}</div>
                             <span className="user-name">{currentUser.username}</span>
                         </div>
+                        <button className="btn btn-primary btn-sm" onClick={() => setShowReportsModal(true)}>
+                            View Reports
+                        </button>
                         <button className="btn btn-secondary btn-sm" onClick={handleLogout}>
                             Logout
                         </button>
@@ -113,6 +118,11 @@ export default function AdminPage() {
                     )}
                 </main>
             </div>
+
+            {/* Reports Modal */}
+            {showReportsModal && (
+                <ReportsListModal onClose={() => setShowReportsModal(false)} />
+            )}
         </div>
     )
 }

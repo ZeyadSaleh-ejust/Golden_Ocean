@@ -1,57 +1,66 @@
+import RadioButtonGroup from './RadioButtonGroup'
+
 export default function VesselInfoSection({ formData, errors, handleInputChange }) {
     return (
         <div className="form-section">
             <h3 className="section-title">
-                <span className="section-icon">🚢</span>
-                Vessel Information
+                <span className="section-icon">⏱️</span>
+                الوقت والمراجعات
             </h3>
 
-            <div className="form-row">
-                <div className="form-group">
-                    <label htmlFor="vesselName" className="form-label required">Vessel Name</label>
-                    <input
-                        type="text"
-                        id="vesselName"
-                        name="vesselName"
-                        className={`form-input ${errors.vesselName ? 'error' : ''}`}
-                        placeholder="Enter vessel name"
-                        value={formData.vesselName}
-                        onChange={handleInputChange}
-                        required
-                    />
-                    {errors.vesselName && <span className="form-error">{errors.vesselName}</span>}
-                </div>
-
-                <div className="form-group">
-                    <label htmlFor="numberOfJumboJets" className="form-label required">Number of Jumbo Jets</label>
+            {/* Duration on Ship */}
+            <div className="form-group">
+                <label htmlFor="durationOnShip" className="form-label required">
+                    مدة البقاء على المركب (دقيقة)
+                </label>
+                <div className="input-with-icon">
                     <input
                         type="number"
-                        id="numberOfJumboJets"
-                        name="numberOfJumboJets"
-                        className={`form-input ${errors.numberOfJumboJets ? 'error' : ''}`}
-                        placeholder="Enter number"
+                        id="durationOnShip"
+                        name="durationOnShip"
+                        className={`form-input ${errors.durationOnShip ? 'error' : ''}`}
+                        placeholder="مثال: 45"
                         min="0"
-                        value={formData.numberOfJumboJets}
+                        value={formData.durationOnShip}
                         onChange={handleInputChange}
                         required
                     />
-                    {errors.numberOfJumboJets && <span className="form-error">{errors.numberOfJumboJets}</span>}
+                    <div className="input-icon-end">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <polyline points="12 6 12 12 16 14"></polyline>
+                        </svg>
+                    </div>
                 </div>
+                {errors.durationOnShip && <span className="form-error">{errors.durationOnShip}</span>}
             </div>
 
-            <div className="form-row">
-                <div className="form-group">
-                    <label className="form-label checkbox-label">
-                        <input
-                            type="checkbox"
-                            name="vesselSubjectToInspection"
-                            checked={formData.vesselSubjectToInspection}
-                            onChange={handleInputChange}
-                            className="form-checkbox"
-                        />
-                        <span>Vessel subject to inspection</span>
-                    </label>
-                </div>
+            {/* Subject to Check */}
+            <div className="form-group">
+                <RadioButtonGroup
+                    name="subjectToCheck"
+                    value={formData.subjectToCheck}
+                    onChange={handleInputChange}
+                    label="Subject to check?"
+                    options={[
+                        { value: 'yes', label: 'نعم' },
+                        { value: 'no', label: 'لا' }
+                    ]}
+                />
+            </div>
+
+            {/* Ship Particular */}
+            <div className="form-group">
+                <RadioButtonGroup
+                    name="shipParticular"
+                    value={formData.shipParticular}
+                    onChange={handleInputChange}
+                    label="Ship particular?"
+                    options={[
+                        { value: 'yes', label: 'نعم' },
+                        { value: 'no', label: 'لا' }
+                    ]}
+                />
             </div>
         </div>
     )

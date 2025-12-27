@@ -8,7 +8,6 @@ import { useReportForm } from '../hooks/useReportForm'
 import VesselInfoSection from '../components/VesselInfoSection'
 import DeliveryInfoSection from '../components/DeliveryInfoSection'
 import AdditionalDetailsSection from '../components/AdditionalDetailsSection'
-import PhotoUploadSection from '../components/PhotoUploadSection'
 import FormActions from '../components/FormActions'
 import ReportSuccessModal from '../components/ReportSuccessModal'
 import '../styles/navigation.css'
@@ -161,11 +160,6 @@ export default function NavigationOfficerPage() {
                         <AdditionalDetailsSection
                             formData={formData}
                             errors={errors}
-                            handleInputChange={handleInputChange}
-                        />
-
-                        <PhotoUploadSection
-                            formData={formData}
                             handleInputChange={handleInputChange}
                         />
 

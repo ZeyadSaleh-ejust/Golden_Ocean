@@ -5,14 +5,34 @@
 /**
  * Validate a single form field
  */
-export function validateField(fieldName, value) {
+export function validateField(fieldName, value, allFormData = {}) {
     switch (fieldName) {
-        case 'deliveryDate':
-        case 'expiryDate':
-        case 'dateOfDelivery':
-        case 'longevity':
-            if (!value) {
-                return { valid: false, message: 'Date is required' }
+        case 'durationOnShip':
+            if (!value || value === '' || value === null || value === undefined) {
+                return { valid: false, message: 'Duration on ship is required' }
+            }
+            if (value < 0) {
+                return { valid: false, message: 'Duration cannot be negative' }
+            }
+            return { valid: true }
+
+        case 'photographyPercentage':
+            if (value === '' || value === null || value === undefined) {
+                return { valid: true } // Optional field
+            }
+            const percentage = parseFloat(value)
+            if (percentage < 0 || percentage > 100) {
+                return { valid: false, message: 'Percentage must be between 0 and 100' }
+            }
+            return { valid: true }
+
+        case 'numberOfItems':
+        case 'returnsCount':
+            if (value === '' || value === null || value === undefined) {
+                return { valid: true } // Optional fields
+            }
+            if (value < 0) {
+                return { valid: false, message: 'Value cannot be negative' }
             }
             return { valid: true }
 
@@ -25,21 +45,19 @@ export function validateField(fieldName, value) {
             }
             return { valid: true }
 
-        case 'vesselName':
         case 'returns':
         case 'competitors':
         case 'notes':
-            if (!value || value.trim() === '') {
-                return { valid: false, message: 'This field is required' }
-            }
+            // Optional text fields
+            return { valid: true }
+
+        case 'subjectToCheck':
+        case 'shipParticular':
+            // Radio buttons always have a value
             return { valid: true }
 
         case 'photos':
-            // Photos are optional, so always valid
-            return { valid: true }
-
-        case 'vesselSubjectToInspection':
-            // Boolean checkbox, always valid
+            // Photos are optional
             return { valid: true }
 
         default:
@@ -49,6 +67,7 @@ export function validateField(fieldName, value) {
 
 /**
  * Validate date range (expiry must be after delivery)
+ * NOTE: This is kept for backwards compatibility but not used in new form
  */
 export function validateDateRange(deliveryDate, expiryDate) {
     if (!deliveryDate || !expiryDate) {

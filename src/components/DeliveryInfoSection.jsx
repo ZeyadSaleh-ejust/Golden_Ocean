@@ -2,67 +2,72 @@ export default function DeliveryInfoSection({ formData, errors, handleInputChang
     return (
         <div className="form-section">
             <h3 className="section-title">
-                <span className="section-icon">📦</span>
-                Delivery Information
+                <span className="section-icon">📄</span>
+                الوثائق
             </h3>
 
-            <div className="form-row">
-                <div className="form-group">
-                    <label htmlFor="dateOfDelivery" className="form-label required">Date of Delivery</label>
+            {/* Photography Percentage */}
+            <div className="form-group">
+                <label htmlFor="photographyPercentage" className="form-label">
+                    نسبة التصوير (%)
+                </label>
+                <div className="input-with-icon">
                     <input
-                        type="date"
-                        id="dateOfDelivery"
-                        name="dateOfDelivery"
-                        className={`form-input ${errors.dateOfDelivery ? 'error' : ''}`}
-                        value={formData.dateOfDelivery}
+                        type="number"
+                        id="photographyPercentage"
+                        name="photographyPercentage"
+                        className={`form-input ${errors.photographyPercentage ? 'error' : ''}`}
+                        placeholder="0-100"
+                        min="0"
+                        max="100"
+                        value={formData.photographyPercentage}
                         onChange={handleInputChange}
-                        required
                     />
-                    {errors.dateOfDelivery && <span className="form-error">{errors.dateOfDelivery}</span>}
+                    <div className="input-icon-end percentage-icon">
+                        %
+                    </div>
                 </div>
-
-                <div className="form-group">
-                    <label htmlFor="deliveryDate" className="form-label required">Delivery Date</label>
-                    <input
-                        type="date"
-                        id="deliveryDate"
-                        name="deliveryDate"
-                        className={`form-input ${errors.deliveryDate ? 'error' : ''}`}
-                        value={formData.deliveryDate}
-                        onChange={handleInputChange}
-                        required
-                    />
-                    {errors.deliveryDate && <span className="form-error">{errors.deliveryDate}</span>}
-                </div>
+                {errors.photographyPercentage && <span className="form-error">{errors.photographyPercentage}</span>}
             </div>
 
-            <div className="form-row">
-                <div className="form-group">
-                    <label htmlFor="expiryDate" className="form-label required">Expiry Date</label>
-                    <input
-                        type="date"
-                        id="expiryDate"
-                        name="expiryDate"
-                        className={`form-input ${errors.expiryDate ? 'error' : ''}`}
-                        value={formData.expiryDate}
-                        onChange={handleInputChange}
-                        required
-                    />
-                    {errors.expiryDate && <span className="form-error">{errors.expiryDate}</span>}
+            {/* Photos Section */}
+            <div className="form-group">
+                <div className="photos-header">
+                    <span className="form-label photos-label">الصور</span>
+                    {formData.photos.length > 0 && (
+                        <span className="photo-count-badge">
+                            {formData.photos.length} {formData.photos.length === 1 ? 'صورة' : 'صور'}
+                        </span>
+                    )}
                 </div>
 
-                <div className="form-group">
-                    <label htmlFor="longevity" className="form-label required">Longevity</label>
-                    <input
-                        type="date"
-                        id="longevity"
-                        name="longevity"
-                        className={`form-input ${errors.longevity ? 'error' : ''}`}
-                        value={formData.longevity}
-                        onChange={handleInputChange}
-                        required
-                    />
-                    {errors.longevity && <span className="form-error">{errors.longevity}</span>}
+                <div className="photos-grid">
+                    {/* Display existing photos */}
+                    {formData.photos.slice(0, 3).map((file, index) => (
+                        <div key={index} className="photo-grid-item">
+                            <div className="photo-placeholder">
+                                <span className="photo-filename">{file.name.slice(0, 8)}...</span>
+                            </div>
+                        </div>
+                    ))}
+
+                    {/* Add photo button */}
+                    <label className="photo-grid-add-button">
+                        <input
+                            type="file"
+                            name="photos"
+                            accept="image/*"
+                            multiple
+                            onChange={handleInputChange}
+                            style={{ display: 'none' }}
+                        />
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                            <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                            <polyline points="21 15 16 10 5 21"></polyline>
+                        </svg>
+                        <span className="add-photo-plus">+</span>
+                    </label>
                 </div>
             </div>
         </div>

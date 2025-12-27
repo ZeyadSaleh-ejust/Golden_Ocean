@@ -1,4 +1,4 @@
-import { formatDate, formatDateTime } from '../utils/authUtils'
+import { formatDate, formatDateTime } from '../../../utils/authUtils'
 
 export default function ReportSuccessModal({ submittedReport, onClose }) {
     if (!submittedReport) return null

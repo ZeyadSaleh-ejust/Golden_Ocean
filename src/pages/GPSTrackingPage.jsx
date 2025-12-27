@@ -22,6 +22,11 @@ export default function GPSTrackingPage() {
         startTracking
     } = useGPSContext()
 
+    // Clear selected order on initial mount to ensure welcome screen is always shown first
+    useEffect(() => {
+        clearSelectedOrder()
+    }, [])
+
     // Update permission step based on GPS permission
     // Auto-navigate to report page when permission is granted (only if order is selected)
     useEffect(() => {

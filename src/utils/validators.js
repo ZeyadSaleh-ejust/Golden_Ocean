@@ -65,21 +65,4 @@ export function validateField(fieldName, value, allFormData = {}) {
     }
 }
 
-/**
- * Validate date range (expiry must be after delivery)
- * NOTE: This is kept for backwards compatibility but not used in new form
- */
-export function validateDateRange(deliveryDate, expiryDate) {
-    if (!deliveryDate || !expiryDate) {
-        return { valid: true } // Other validators handle required checks
-    }
 
-    if (new Date(expiryDate) <= new Date(deliveryDate)) {
-        return {
-            valid: false,
-            message: 'Expiry date must be after delivery date'
-        }
-    }
-
-    return { valid: true }
-}

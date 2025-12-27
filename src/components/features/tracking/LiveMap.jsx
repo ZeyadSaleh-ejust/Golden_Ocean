@@ -1,32 +1,13 @@
 import { useCallback, useState } from 'react'
 import { GoogleMap, Marker, InfoWindow, Polyline } from '@react-google-maps/api'
-import { formatCoordinate } from '../utils/orderUtils'
-import { formatDateTime } from '../utils/authUtils'
-import { GPS_CONFIG } from '../utils/constants'
+import { formatCoordinate } from '../../../utils/orderUtils'
+import { formatDateTime } from '../../../utils/authUtils'
+import { GPS_CONFIG, MAP_CONFIG, COLORS } from '../../../utils/constants'
+import { defaultMapOptions, getCircleMarker } from '../../../utils/mapUtils'
 
 const mapContainerStyle = {
     width: '100%',
     height: '100%'
-}
-
-const defaultCenter = {
-    lat: 25.2048,
-    lng: 55.2708
-}
-
-const mapOptions = {
-    disableDefaultUI: false,
-    zoomControl: true,
-    mapTypeControl: false,
-    streetViewControl: false,
-    fullscreenControl: true,
-    styles: [
-        {
-            featureType: 'poi',
-            elementType: 'labels',
-            stylers: [{ visibility: 'off' }]
-        }
-    ]
 }
 
 export default function LiveMap({ locations, selectedOrderId, onMarkerClick, isLoaded, loadError }) {
@@ -68,14 +49,12 @@ export default function LiveMap({ locations, selectedOrderId, onMarkerClick, isL
         const isSelected = location.orderId === selectedOrderId
         const isRecent = isLocationRecent(location.timestamp)
 
-        return {
-            path: window.google.maps.SymbolPath.CIRCLE,
+        return getCircleMarker({
+            color: isRecent ? COLORS.SUCCESS : COLORS.WARNING,
             scale: isSelected ? 12 : 8,
-            fillColor: isRecent ? '#10b981' : '#f59e0b',
-            fillOpacity: 1,
-            strokeColor: isSelected ? '#fff' : '#1f2937',
+            strokeColor: isSelected ? '#fff' : COLORS.DARK,
             strokeWeight: isSelected ? 3 : 2
-        }
+        })
     }
 
     const isLocationRecent = (timestamp) => {
@@ -110,9 +89,9 @@ export default function LiveMap({ locations, selectedOrderId, onMarkerClick, isL
     return (
         <GoogleMap
             mapContainerStyle={mapContainerStyle}
-            center={defaultCenter}
-            zoom={12}
-            options={mapOptions}
+            center={MAP_CONFIG.DUBAI_CENTER}
+            zoom={MAP_CONFIG.DEFAULT_ZOOM}
+            options={defaultMapOptions}
             onLoad={onLoad}
             onUnmount={onUnmount}
         >

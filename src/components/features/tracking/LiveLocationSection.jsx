@@ -1,6 +1,6 @@
 import OfficerLocationMap from './OfficerLocationMap'
-import { calculateDistance, formatCoordinate } from '../utils/orderUtils'
-import { formatDateTime } from '../utils/authUtils'
+import { calculateDistance, formatCoordinate } from '../../../utils/orderUtils'
+import { formatDateTime } from '../../../utils/authUtils'
 
 /**
  * LiveLocationSection Component

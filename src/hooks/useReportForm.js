@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { validateField, validateDateRange } from '../utils/validators'
+import { validateField } from '../utils/validators'
 import { INITIAL_FORM_STATE } from '../utils/formConstants'
 
 /**
@@ -41,12 +41,7 @@ export function useReportForm() {
             }
         })
 
-        // Validate date range
-        const dateRangeValidation = validateDateRange(formData.deliveryDate, formData.expiryDate)
-        if (!dateRangeValidation.valid) {
-            newErrors.expiryDate = dateRangeValidation.message
-            isValid = false
-        }
+        // Date range validation removed as per new requirements
 
         setErrors(newErrors)
         return isValid

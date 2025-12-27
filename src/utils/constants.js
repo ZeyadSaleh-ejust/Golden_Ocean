@@ -49,3 +49,14 @@ export const ROLES = {
     NAVIGATION_OFFICER: 'navigation-officer',
     ADMIN: 'admin',
 }
+
+// UI Colors
+export const COLORS = {
+    PRIMARY: '#3b82f6', // blue-500
+    SUCCESS: '#10b981', // emerald-500
+    WARNING: '#f59e0b', // amber-500
+    DANGER: '#ef4444',  // red-500
+    DARK: '#1f2937',    // gray-800
+    LIGHT: '#ffffff',
+}
+

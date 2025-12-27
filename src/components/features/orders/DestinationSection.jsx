@@ -1,4 +1,4 @@
-import { calculateDistance } from '../utils/orderUtils'
+import { calculateDistance } from '../../../utils/orderUtils'
 
 /**
  * DestinationSection Component

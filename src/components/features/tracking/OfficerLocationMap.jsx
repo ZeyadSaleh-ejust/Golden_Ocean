@@ -1,24 +1,11 @@
 import { GoogleMap, Marker, Circle } from '@react-google-maps/api'
+import { defaultMapOptions, getCircleMarker } from '../../../utils/mapUtils'
+import { COLORS } from '../../../utils/constants'
 
 const mapContainerStyle = {
     width: '100%',
     height: '300px',
     borderRadius: '12px'
-}
-
-const mapOptions = {
-    disableDefaultUI: false,
-    zoomControl: true,
-    mapTypeControl: false,
-    streetViewControl: false,
-    fullscreenControl: true,
-    styles: [
-        {
-            featureType: 'poi',
-            elementType: 'labels',
-            stylers: [{ visibility: 'off' }]
-        }
-    ]
 }
 
 export default function OfficerLocationMap({ location, destination, accuracy, isLoaded, loadError }) {
@@ -44,19 +31,17 @@ export default function OfficerLocationMap({ location, destination, accuracy, is
             mapContainerStyle={mapContainerStyle}
             center={{ lat: location.lat, lng: location.lng }}
             zoom={15}
-            options={mapOptions}
+            options={defaultMapOptions}
         >
             {/* Officer current location marker */}
             <Marker
                 position={{ lat: location.lat, lng: location.lng }}
-                icon={{
-                    path: window.google.maps.SymbolPath.CIRCLE,
+                icon={getCircleMarker({
+                    color: COLORS.SUCCESS,
                     scale: 10,
-                    fillColor: '#10b981',
-                    fillOpacity: 1,
                     strokeColor: '#fff',
                     strokeWeight: 3
-                }}
+                })}
                 title="Current Location"
             />
 
@@ -66,9 +51,9 @@ export default function OfficerLocationMap({ location, destination, accuracy, is
                     center={{ lat: location.lat, lng: location.lng }}
                     radius={accuracy}
                     options={{
-                        fillColor: '#10b981',
+                        fillColor: COLORS.SUCCESS,
                         fillOpacity: 0.15,
-                        strokeColor: '#10b981',
+                        strokeColor: COLORS.SUCCESS,
                         strokeOpacity: 0.5,
                         strokeWeight: 1
                     }}
@@ -79,14 +64,12 @@ export default function OfficerLocationMap({ location, destination, accuracy, is
             {destination && (
                 <Marker
                     position={{ lat: destination.lat, lng: destination.lng }}
-                    icon={{
-                        path: window.google.maps.SymbolPath.CIRCLE,
+                    icon={getCircleMarker({
+                        color: COLORS.DANGER,
                         scale: 8,
-                        fillColor: '#ef4444',
-                        fillOpacity: 1,
                         strokeColor: '#fff',
                         strokeWeight: 2
-                    }}
+                    })}
                     title={`Destination: ${destination.name || 'Target Location'}`}
                 />
             )}

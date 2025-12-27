@@ -1,6 +1,6 @@
-import LiveLocationSection from './LiveLocationSection'
+import LiveLocationSection from '../tracking/LiveLocationSection'
 import DestinationSection from './DestinationSection'
-import TrackingHistorySection from './TrackingHistorySection'
+import TrackingHistorySection from '../tracking/TrackingHistorySection'
 import OrderDetailsSection from './OrderDetailsSection'
 
 /**

@@ -59,19 +59,76 @@ export default function ReportsListModal({ onClose }) {
                                                 <span className="report-date">{new Date(report.submittedAt).toLocaleDateString()}</span>
                                             </div>
                                             <div className="report-details">
-                                                <div className="detail-row">
-                                                    <span>Vessel:</span>
-                                                    <strong>{report.vesselName}</strong>
+                                                <div className="detail-section">
+                                                    <h4>🚢 Vessel Information</h4>
+                                                    <div className="detail-grid">
+                                                        <div className="detail-row">
+                                                            <span>Vessel Name:</span>
+                                                            <strong>{report.vesselName}</strong>
+                                                        </div>
+                                                        <div className="detail-row">
+                                                            <span>Vessel Type:</span>
+                                                            <span>{report.vesselType}</span>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                <div className="detail-row">
-                                                    <span>Delivery Date:</span>
-                                                    <span>{report.deliveryDate}</span>
+
+                                                <div className="detail-section">
+                                                    <h4>📍 Route & Delivery</h4>
+                                                    <div className="detail-grid">
+                                                        <div className="detail-row">
+                                                            <span>From:</span>
+                                                            <span>{report.portOfDeparture}</span>
+                                                        </div>
+                                                        <div className="detail-row">
+                                                            <span>To:</span>
+                                                            <span>{report.destination}</span>
+                                                        </div>
+                                                        <div className="detail-row">
+                                                            <span>Delivery Date:</span>
+                                                            <span>{report.deliveryDate}</span>
+                                                        </div>
+                                                        <div className="detail-row">
+                                                            <span>Manager:</span>
+                                                            <span>{report.deliveryManager}</span>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                <div className="detail-row">
-                                                    <span>Status:</span>
-                                                    <span className={`status-badge ${report.subjectToCheck ? 'warning' : 'success'}`}>
-                                                        {report.subjectToCheck ? 'Subject to Check' : 'Completed'}
-                                                    </span>
+
+                                                <div className="detail-section">
+                                                    <h4>📦 Cargo Details</h4>
+                                                    <div className="detail-grid">
+                                                        <div className="detail-row">
+                                                            <span>Goods Type:</span>
+                                                            <span>{report.goodsType}</span>
+                                                        </div>
+                                                        <div className="detail-row">
+                                                            <span>Quantity:</span>
+                                                            <span>{report.numberOfJumboJets} units</span>
+                                                        </div>
+                                                        <div className="detail-row">
+                                                            <span>Condition:</span>
+                                                            <span>{report.deliveryStatus}</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div className="detail-section full-width">
+                                                    <h4>📝 Status & Notes</h4>
+                                                    <div className="detail-grid">
+                                                        <div className="detail-row">
+                                                            <span>Report Status:</span>
+                                                            <span className={`status-badge ${report.subjectToCheck ? 'warning' : 'success'}`}>
+                                                                {report.subjectToCheck ? 'Subject to Check' : 'Verified'}
+                                                            </span>
+                                                        </div>
+                                                        {report.notes && (
+                                                            <div className="detail-row full-width">
+                                                                <span>Notes:</span>
+                                                                <p className="notes-text">{report.notes}</p>
+                                                            </div>
+                                                        )}
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -195,9 +252,39 @@ export default function ReportsListModal({ onClose }) {
                 }
                 .report-details {
                     display: grid;
-                    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-                    gap: 10px;
+                    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                    gap: 20px;
                     font-size: 0.95rem;
+                }
+                .detail-section {
+                    background: #f9fafb;
+                    padding: 12px;
+                    border-radius: 6px;
+                }
+                .detail-section h4 {
+                    margin: 0 0 10px 0;
+                    font-size: 0.9rem;
+                    color: #4b5563;
+                    text-transform: uppercase;
+                    letter-spacing: 0.05em;
+                    border-bottom: 2px solid #e5e7eb;
+                    padding-bottom: 5px;
+                }
+                .detail-grid {
+                    display: grid;
+                    gap: 8px;
+                }
+                .full-width {
+                    grid-column: 1 / -1;
+                }
+                .notes-text {
+                    margin: 5px 0 0 0;
+                    padding: 8px;
+                    background: #fff;
+                    border: 1px solid #e5e7eb;
+                    border-radius: 4px;
+                    font-size: 0.9rem;
+                    color: #374151;
                 }
                 .detail-row {
                     display: flex;

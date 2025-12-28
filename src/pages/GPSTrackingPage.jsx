@@ -23,15 +23,12 @@ export default function GPSTrackingPage() {
         startTracking
     } = useGPSContext()
 
-    // Clear selected order ONLY on first visit (when there's no order selected)
-    // If user is returning from order selection page with an order, keep it
+    // Redirect to order selection if no order is selected
     useEffect(() => {
-        if (!hasCleared.current && !selectedOrderId) {
-            clearSelectedOrder()
-            hasCleared.current = true
+        if (!selectedOrderId) {
+            navigate('/navigation-officer/select-order', { replace: true })
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    }, [selectedOrderId, navigate])
 
     // Update permission step based on GPS permission
     // Auto-navigate to report page when permission is granted (only if order is selected)
@@ -75,6 +72,11 @@ export default function GPSTrackingPage() {
         navigate('/', { replace: true })
     }
 
+    // If redirecting, render nothing to avoid flashes
+    if (!selectedOrderId) {
+        return null
+    }
+
     return (
         <div className="tracking-page-modern">
             <header className="modern-header">
@@ -101,58 +103,38 @@ export default function GPSTrackingPage() {
                     <div className="gps-permission-request">
                         <div className="permission-card">
                             <div className="permission-icon">📍</div>
-                            {!selectedOrder ? (
-                                <>
-                                    <h2>Welcome, {currentUser.username}!</h2>
-                                    <p className="permission-description">
-                                        Ready to start your delivery? Click the button below to select an order and begin tracking.
-                                    </p>
-                                    <button
-                                        className="btn btn-primary btn-lg"
-                                        onClick={handleRequestPermission}
-                                    >
-                                        Select Order & Enable Tracking
-                                    </button>
-                                    <p className="permission-note">
-                                        ℹ️ You'll be able to select from available orders and enable location tracking.
-                                    </p>
-                                </>
-                            ) : (
-                                <>
-                                    <h2>Location Permission Required</h2>
-                                    <p className="permission-description">
-                                        To track your delivery route in real-time, we need access to your device's location.
-                                        Your location will be shared with the admin dashboard while you're on duty.
-                                    </p>
+                            <h2>Location Permission Required</h2>
+                            <p className="permission-description">
+                                To track your delivery route in real-time, we need access to your device's location.
+                                Your location will be shared with the admin dashboard while you're on duty.
+                            </p>
 
-                                    <div className="order-info-box">
-                                        <h3>Current Order</h3>
-                                        <div className="info-row">
-                                            <span className="info-label">Order ID:</span>
-                                            <span className="info-value">{selectedOrder.id}</span>
-                                        </div>
-                                        <div className="info-row">
-                                            <span className="info-label">Destination:</span>
-                                            <span className="info-value">{selectedOrder.destination.name}</span>
-                                        </div>
-                                        <div className="info-row">
-                                            <span className="info-label">Customer:</span>
-                                            <span className="info-value">{selectedOrder.customerName}</span>
-                                        </div>
-                                    </div>
+                            <div className="order-info-box">
+                                <h3>Current Order</h3>
+                                <div className="info-row">
+                                    <span className="info-label">Order ID:</span>
+                                    <span className="info-value">{selectedOrder?.id}</span>
+                                </div>
+                                <div className="info-row">
+                                    <span className="info-label">Destination:</span>
+                                    <span className="info-value">{selectedOrder?.destination.name}</span>
+                                </div>
+                                <div className="info-row">
+                                    <span className="info-label">Customer:</span>
+                                    <span className="info-value">{selectedOrder?.customerName}</span>
+                                </div>
+                            </div>
 
-                                    <button
-                                        className="btn btn-primary btn-lg"
-                                        onClick={handleRequestPermission}
-                                    >
-                                        Enable Location Tracking
-                                    </button>
+                            <button
+                                className="btn btn-primary btn-lg"
+                                onClick={handleRequestPermission}
+                            >
+                                Enable Location Tracking
+                            </button>
 
-                                    <p className="permission-note">
-                                        ℹ️ Your browser will ask for location permission. Please allow it to continue.
-                                    </p>
-                                </>
-                            )}
+                            <p className="permission-note">
+                                ℹ️ Your browser will ask for location permission. Please allow it to continue.
+                            </p>
                         </div>
                     </div>
                 )}

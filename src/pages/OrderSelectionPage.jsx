@@ -81,11 +81,11 @@ export default function OrderSelectionPage() {
                 <div className="profile-section">
                     <button
                         className="back-btn"
-                        onClick={() => navigate('/navigation-officer/tracking')}
-                        aria-label="Back to tracking"
+                        onClick={handleLogout}
+                        aria-label="Back to login"
                     >
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                            <path d="M19 12H5M12 19l-7-7 7-7" />
+                            <polyline points="15 18 9 12 15 6"></polyline>
                         </svg>
                     </button>
                     <div className="profile-avatar-wrapper">

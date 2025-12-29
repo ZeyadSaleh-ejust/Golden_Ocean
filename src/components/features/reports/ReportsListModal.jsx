@@ -60,56 +60,46 @@ export default function ReportsListModal({ onClose }) {
                                             </div>
                                             <div className="report-details">
                                                 <div className="detail-section">
-                                                    <h4>🚢 Vessel Information</h4>
+                                                    <h4>⏱️ Time & Particulars</h4>
                                                     <div className="detail-grid">
                                                         <div className="detail-row">
-                                                            <span>Vessel Name:</span>
-                                                            <strong>{report.vesselName}</strong>
+                                                            <span>Duration on Ship:</span>
+                                                            <strong>{report.durationOnShip || 'N/A'} mins</strong>
                                                         </div>
                                                         <div className="detail-row">
-                                                            <span>Vessel Type:</span>
-                                                            <span>{report.vesselType}</span>
+                                                            <span>Ship Particular?</span>
+                                                            <span>{report.shipParticular === 'yes' ? 'Yes' : 'No'}</span>
+                                                        </div>
+                                                        <div className="detail-row">
+                                                            <span>Photo %:</span>
+                                                            <span>{report.photographyPercentage || 0}%</span>
                                                         </div>
                                                     </div>
                                                 </div>
 
                                                 <div className="detail-section">
-                                                    <h4>📍 Route & Delivery</h4>
+                                                    <h4>📦 Inventory & Competitors</h4>
                                                     <div className="detail-grid">
                                                         <div className="detail-row">
-                                                            <span>From:</span>
-                                                            <span>{report.portOfDeparture}</span>
+                                                            <span>Items Count:</span>
+                                                            <span>{report.numberOfItems || 0}</span>
                                                         </div>
                                                         <div className="detail-row">
-                                                            <span>To:</span>
-                                                            <span>{report.destination}</span>
+                                                            <span>Jumbo Jets:</span>
+                                                            <span>{report.numberOfJumboJets || 0}</span>
                                                         </div>
-                                                        <div className="detail-row">
-                                                            <span>Delivery Date:</span>
-                                                            <span>{report.deliveryDate}</span>
-                                                        </div>
-                                                        <div className="detail-row">
-                                                            <span>Manager:</span>
-                                                            <span>{report.deliveryManager}</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div className="detail-section">
-                                                    <h4>📦 Cargo Details</h4>
-                                                    <div className="detail-grid">
-                                                        <div className="detail-row">
-                                                            <span>Goods Type:</span>
-                                                            <span>{report.goodsType}</span>
-                                                        </div>
-                                                        <div className="detail-row">
-                                                            <span>Quantity:</span>
-                                                            <span>{report.numberOfJumboJets} units</span>
-                                                        </div>
-                                                        <div className="detail-row">
-                                                            <span>Condition:</span>
-                                                            <span>{report.deliveryStatus}</span>
-                                                        </div>
+                                                        {report.returns && (
+                                                            <div className="detail-row">
+                                                                <span>Returns:</span>
+                                                                <span>{report.returns} ({report.returnsCount || 0})</span>
+                                                            </div>
+                                                        )}
+                                                        {report.competitors && (
+                                                            <div className="detail-row">
+                                                                <span>Competitors:</span>
+                                                                <span>{report.competitors}</span>
+                                                            </div>
+                                                        )}
                                                     </div>
                                                 </div>
 
@@ -117,9 +107,9 @@ export default function ReportsListModal({ onClose }) {
                                                     <h4>📝 Status & Notes</h4>
                                                     <div className="detail-grid">
                                                         <div className="detail-row">
-                                                            <span>Report Status:</span>
-                                                            <span className={`status-badge ${report.subjectToCheck ? 'warning' : 'success'}`}>
-                                                                {report.subjectToCheck ? 'Subject to Check' : 'Verified'}
+                                                            <span>Subject To Check?</span>
+                                                            <span className={`status-badge ${report.subjectToCheck === 'yes' ? 'warning' : 'success'}`}>
+                                                                {report.subjectToCheck === 'yes' ? 'Yes' : 'No'}
                                                             </span>
                                                         </div>
                                                         {report.notes && (
